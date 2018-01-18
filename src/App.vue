@@ -1,11 +1,14 @@
 <template>
   <div id="app">
     <v-header @showSide="show"></v-header>
+    <sidebar ref="sidebar"></sidebar>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
 import VHeader from '@/components/v-header/v-header';
+import Sidebar from '@/components/sidebar/sidebar';
 
 export default {
   name: 'app',
@@ -15,7 +18,8 @@ export default {
     }
   },
   components: {
-    VHeader
+    VHeader,
+    Sidebar
   }
 }
 </script>
