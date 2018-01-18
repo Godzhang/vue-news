@@ -5,5 +5,6 @@ export default {
 	goType: 1,
 	isCollect: false,	//当前收藏状态
 	isCollectNews: [],	//收藏新闻数组
-	isCollectedIds: []	//收藏新闻id数组
+	isCollectedIds: [],	//收藏新闻id数组
+    popularity: ''      //当前新闻点赞数
 }

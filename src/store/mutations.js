@@ -1,6 +1,12 @@
 import * as types from './mutation_types';
 
 export default {
+	addPopular(state){
+		state.popularity++;
+	},
+	reducePopular(state){
+		state.popularity--;
+	},
 	//
 	setId(state, id){
 		state.id = id;
