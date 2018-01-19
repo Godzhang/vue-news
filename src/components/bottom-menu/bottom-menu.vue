@@ -8,6 +8,10 @@
 				<span class="extra">{{ this.$store.state.popularity }}</span>
 			</div>
 			<div class="menu" @click="showShare"><i class="icon iconfont icon-fenxiang"></i></div>
+			<div class="menu" @click="goComments">
+				<i class="icon iconfont icon-pinglun"></i>
+				<span class="extra" v-if="this.$store.state.comments">{{ this.$store.state.comments }}</span>
+			</div>
 			<transition name="fold">
 				<div class="share" v-show="shareshow" :class="model">
 					<div class="title">分享这篇内容</div>
@@ -71,6 +75,7 @@
 </template>
 <script>
 import { mapGetters, mapMutations } from 'vuex'
+import { getNewsInfo } from '@/api/service'
 
 export default {
 	data(){
@@ -79,7 +84,30 @@ export default {
 			shareshow: false
 		}
 	},
+	created(){
+		this.fetchExtraData();
+	},
+	watch: {
+		'$route'(to, from){
+			this.fetchExtraData();
+		}
+	},
 	methods: {
+		fetchExtraData(){
+			let id = this.$route.params.id;
+			getNewsInfo(id).then((res) => {
+				let data = res.data;
+
+				this.$store.dispatch('changeStoryExtra', {
+					long_comments: data.long_comments,
+					short_comments: data.short_comments,
+		            comments: data.comments,
+		            popularity: data.popularity
+				});
+			}).catch((error) => {
+				console.log(error);
+			});
+		},
 		goBack(){
 			if(this.$store.state.goType === 1){
 				this.$router.push({name: 'homePage'});
@@ -108,12 +136,12 @@ export default {
 		hideShare(){
 			this.shareshow = false;
 		},
+		goComments(){
+			this.$router.push({name: 'comments', params: {id: this.$route.params.id}});
+		},
 		...mapMutations({
 			'changeCollect': 'JUDGE_COLLECT_STATE'
 		})
-		// changeCollect(){
-		// 	this.$store.dispatch('changeCollectState');
-		// }
 	},
 	computed: {
 		model(){
@@ -175,6 +203,12 @@ export default {
 			background: #f5f5f5;
 			z-index: 50;
 			transform: translate3d(0, 0, 0);
+			&.fold-enter-active, &.fold-leave-active{
+				transition: all 0.5s;
+			}
+			&.fold-enter, &.fold-leave-to{
+			   	transform: translate3d(0, 100%, 0);
+			}
 			&.morning{
 				color: rgb(51, 51, 51);
 		        background-color: rgb(233, 233, 233);
@@ -198,7 +232,7 @@ export default {
 		        font-size: 0;
 				.shareMenu{
 					display: inline-block;
-					padding-top: 15px;
+					padding-top: 10px;
 					z-index: 50;
 					width: 25%;
 					margin-bottom: 30px;
@@ -276,6 +310,12 @@ export default {
 			background: rgba(7, 17, 27, 0.6);
 			z-index: 40;
 			opacity: 1;
+			&.fade-enter-active, &.fade-leave-active{
+				transition: all 0.5s;
+			}
+			&.fade-enter, &.fade-leave-to{
+				opacity: 0;
+			}
 		}
 	}
 }
@@ -283,18 +323,6 @@ export default {
 	position: fixed;
 	width: 100%;
 }
-.fold-enter-active, .fold-leave-active{
-	transition: all 0.5s;
-}
-.fold-enter, .fold-leave-active{
-   	transform: translate3d(0, 100%, 0);
-}
-.fade-enter-active, .fade-leave-active{
-	transition: all 0.5s;
-}
 
-.fade-enter, .fade-leave-active{
-	opacity: 0;
-}
-       
+
 </style>

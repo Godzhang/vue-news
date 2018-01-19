@@ -10,6 +10,7 @@ import 'mint-ui/lib/style.css'
 Vue.config.productionTip = false
 
 Vue.use(MintUI);
+
 Vue.directive('css', {
     inserted(el, bind){
         let styleObj = bind.value;

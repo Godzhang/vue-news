@@ -15,3 +15,12 @@ export function getDetails(id){
 		});
 	});
 }
+
+//获取新闻点赞评论等信息
+export function getNewsInfo(id){
+	return new Promise((resolve, reject) => {
+		axios.get('api/story-extra/' + id).then((res) => {
+			resolve(res);
+		});
+	});
+}
