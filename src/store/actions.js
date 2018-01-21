@@ -30,5 +30,24 @@ export default {
 	addDateStr({commit}, dateStr) {
   	    commit(types.ADD_DATE_STR, dateStr)
   		commit(types.ADD_HOMEPAGE_DATE_STR, dateStr)
+	},
+	//增加主题新闻数据
+	addTheme:({commit},payload) => {
+		commit(types.ADD_THEME,payload)
+	},
+	addThemeIds:({commit},ids) => {
+		commit(types.ADD_THEME_NEWID,ids)
+	},
+	//增加全部加载过的新闻到数组
+	addAllNews:({commit},stories) => {
+		commit(types.ADD_ALL_NEWS,stories)
+	},
+	//添加主题新闻下一篇新闻id
+	addThemeNextId:({commit},id) => {
+		commit(types.ADD_THEME_NEXT_ID,id)
+	},
+	//改变主编id
+	addEditorId:({commit},payload) => {
+		commit(types.ADD_EDITOR_ID,payload)
 	}
 }

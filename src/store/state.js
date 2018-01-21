@@ -17,5 +17,9 @@ export default {
     homepageDateStr:0,   //首页日期字符串
     dateStr:0,            //详情页日期字符串
     date:0,                //详情页日期,
+    currentTheme: '',     //当前主题数组
+    themeids:[],          //当前主题新闻数组id
+    allStories:[],        //全部已加载新闻数组
+    editor:'',             //当前主编信息
 
 }

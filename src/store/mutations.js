@@ -12,7 +12,7 @@ export default {
 		state.id = id;
 	},
 	//
-	[types.CHANGE_CURRENT_THEME_ID](state){
+	[types.CHANGE_CURRENT_THEME_ID](state, id){
 		state.currentThemeId = id;
 	},
 	//改变跳转详情页的路由状态，判断是从哪里跳入
@@ -35,7 +35,7 @@ export default {
 		}
 	},
 	//添加详情页底部状态到数组
-	[types.STORY_EXTRA](state, data){
+	[types.STORY_EXTRA](state, extra){
 		state.comments = extra.comments;
 	    state.long_comments = extra.long_comments;
 	    state.short_comments = extra.short_comments;
@@ -67,5 +67,27 @@ export default {
 	//改变首页字符串
 	[types.ADD_HOMEPAGE_DATE_STR](state,dateStr){
 		state.homepageDateStr = dateStr;
+	},
+	//增加主题新闻数据
+	[types.ADD_THEME](state,payload){
+		state.currentTheme = payload;
+	},
+	//主题新闻id数组
+	[types.ADD_THEME_NEWID](state,ids){
+		state.themeids = ids;
+	},
+	//增加全部加载过的新闻到数组
+	[types.ADD_ALL_NEWS](state,stories){
+		state.allStories = state.allStories.concat(stories)
+	},
+	//增加主题新闻下一篇id
+	[types.ADD_THEME_NEXT_ID](state,id){
+		state.id = id;
+		let index = state.themeids.indexOf(id);
+		state.themenextId = state.themeids[index + 1];
+	},
+	//改变主编id
+	[types.ADD_EDITOR_ID](state,payload){
+		state.editor = payload;
 	}
 }

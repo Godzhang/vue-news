@@ -109,12 +109,12 @@ export default {
 			});
 		},
 		goBack(){
-			if(this.$store.state.goType === 1){
+			if(this.$store.state.goType.type === 1){
 				this.$router.push({name: 'homePage'});
-			}else if(this.$store.state.goType === 2){
+			}else if(this.$store.state.goType.type === 2){
 				this.$router.push({name: 'collect'});
 				this.$store.dispatch('changeGoType', 1);
-			}else if(this.$store.state.goType === 3){
+			}else if(this.$store.state.goType.type === 3){
 				this.$router.push({name: 'themeDetail', params: {id: this.$store.state.currentThemeId}});
 			}
 		},
@@ -137,6 +137,7 @@ export default {
 			this.shareshow = false;
 		},
 		goComments(){
+			this.$store.commit('setId', this.$route.params.id);
 			this.$router.push({name: 'comments', params: {id: this.$route.params.id}});
 		},
 		...mapMutations({
