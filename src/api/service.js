@@ -24,3 +24,11 @@ export function getNewsInfo(id){
 		});
 	});
 }
+//获取专题信息
+export function getThemeInfo(id){
+	return new Promise((resolve, reject) => {
+		axios.get('api/theme/' + id).then((res) => {
+			resolve(res);
+		});
+	});
+}

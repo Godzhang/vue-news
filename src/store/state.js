@@ -21,5 +21,6 @@ export default {
     themeids:[],          //当前主题新闻数组id
     allStories:[],        //全部已加载新闻数组
     editor:'',             //当前主编信息
+    themeTitle: ''  
 
 }

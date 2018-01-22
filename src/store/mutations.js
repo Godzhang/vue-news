@@ -11,6 +11,12 @@ export default {
 	setId(state, id){
 		state.id = id;
 	},
+	//对图片url进行转换
+	[types.ATTACH_URL](state, srcUrl) {
+        if (srcUrl !== undefined) {
+            return srcUrl.replace(/http\w{0,1}:\/\/p/g, 'https://images.weserv.nl/?url=p')
+        }
+    },
 	//
 	[types.CHANGE_CURRENT_THEME_ID](state, id){
 		state.currentThemeId = id;
@@ -89,5 +95,9 @@ export default {
 	//改变主编id
 	[types.ADD_EDITOR_ID](state,payload){
 		state.editor = payload;
+	},
+	//更改主模块title
+	[types.CHANGE_CURRENT_THEME_TITLE](state, title){
+		state.themeTitle = title;
 	}
 }

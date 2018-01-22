@@ -11,18 +11,6 @@ Vue.config.productionTip = false
 
 Vue.use(MintUI);
 
-Vue.directive('css', {
-    inserted(el, bind){
-        let styleObj = bind.value;
-        let arr = [];
-        for(var key in styleObj){
-            arr.push(key + ":" + styleObj[key]);
-        }
-        arr = arr.join(';');
-        el.style.cssText = arr;
-    }
-});
-
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

@@ -23,8 +23,8 @@
 				</div>
 				<scroll :data="data" class="themes-list" ref="scroll">
 					<ul style="padding-left: 0">
-			            <li class="themes" v-for="item in data" @click="goTheme(item.id)" :class="{'current': currentThemeId === item.id}">
-			            	<div class="icons" v-if="item.id === -1"><i class="icon iconfont icon-shouyeshouye"></i></div>
+			            <li class="themes" v-for="item in data" @click="goTheme(item.id, item.name)" :class="{'current': currentThemeId === item.id}">
+			            	<div class="icons" v-if="item.id === currentThemeId"><i class="icon iconfont icon-shouyeshouye"></i></div>
 			                <div class="themetitle">{{ item.name }}</div>
 			            </li>
 			        </ul>
@@ -89,17 +89,19 @@ export default {
 		hide(){
 			this.showFlag = false;
 		},
-		goTheme(id){
+		goTheme(id, name){
 			if(id === -1){
 				this.hide();
 				this.$router.push({name: 'homePage'});
 				this.setGoType(1);
 				this.setThemeId(id);
+				this.setThemeTitle(name);
 			}else if(id === this.currentThemeId){
 				this.hide();
 			}else{
 				this.hide();
 				this.setThemeId(id);
+				this.setThemeTitle(name);
 				this.$router.push({name: 'themeDetail', params: {id: id}});
 			}
 		},
@@ -110,7 +112,8 @@ export default {
 		...mapMutations({
 			setThemeId: 'CHANGE_CURRENT_THEME_ID',
 			setGoType: 'CHANGE_GO_TYPES',
-			changeModel: 'CHANGE_MODEL'
+			changeModel: 'CHANGE_MODEL',
+			setThemeTitle: 'CHANGE_CURRENT_THEME_TITLE'
 		})
 	},
 	computed: {

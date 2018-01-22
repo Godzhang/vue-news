@@ -7,8 +7,8 @@
 						<div class="slider-content">
 							<swiper :options="swiperOption" ref="mySwiper">
 								<swiper-slide v-for="(item, index) in sliders" :key="index">
-									<div>
-										<img :src="item" alt="" />
+									<div @click="goNew(item.id)">
+										<img :src="item.image" alt="" />
 									</div>
 								</swiper-slide>
 							</swiper>
@@ -44,7 +44,7 @@ export default {
 		return {
 			sliders: [],
 			swiperOption: {
-				loop: true
+				// loop: true
 			},
 			date: new Date(),
 			dateStr: ''
@@ -102,15 +102,10 @@ export default {
 			});
 		},
 		initImage(data){
-			return data.map((item) => {
-				return this.attachImageUrl(item.image);
+			data.forEach((item) => {
+				item.image = this.attachImageUrl(item.image);
 			});
-		},
-		//转换图片url
-		attachImageUrl(srcUrl) {
-			if (srcUrl !== undefined) {
-			    return srcUrl.replace(/http\w{0,1}:\/\/p/g, 'https://images.weserv.nl/?url=p');
-			}
+			return data;
 		},
 		//将日期推前一天
 		decreaseDateStr() {
@@ -148,18 +143,16 @@ export default {
 			'addNews',
 			'changeGoType',
 			'addDate',
-			'addDateStr'
+			'addDateStr',
+			'attachImageUrl'
 		])
 	},
 	computed: {
 		swiper(){
 			return this.$refs.mySwiper.swiper;
 		},
-		model(){
-			return this.isNight ? 'night' : 'morning';
-		},
 		...mapGetters([
-			'isNight',
+			'model',
 			'stories',
 			'isFirstLoad',
 			'homepageDate',

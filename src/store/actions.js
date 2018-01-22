@@ -49,5 +49,9 @@ export default {
 	//改变主编id
 	addEditorId:({commit},payload) => {
 		commit(types.ADD_EDITOR_ID,payload)
+	},
+	//对图片url进行转换
+	attachImageUrl({commit}, srcUrl) {
+		commit(types.ATTACH_URL, srcUrl);
 	}
 }

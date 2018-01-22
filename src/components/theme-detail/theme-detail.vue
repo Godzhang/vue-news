@@ -3,7 +3,7 @@
         <div class="model" :class="model">
             <v-header @showSide="show" :title="themeTitle"></v-header>
             <sidebar ref="sidebar"></sidebar>
-            <div class="editors border-1px" @click="showEditors(id)">
+            <router-link :to="{name: 'editorsList', params: {id: currentThemeId}}" tag="div" class="editors border-1px">
                 <span class="editor">主编</span>
                 <div class="avatar" v-for="editor in this.$store.state.currentTheme.editors">
                     <img :src="attachImageUrl(editor.avatar)" alt="" width="25" height="25">
@@ -11,7 +11,7 @@
                 <span class="arrow_right">
                     <img src="../../assets/image/arrow_right.png" alt="" width="15" height="15">
                 </span>
-            </div>
+            </router-link>
             <div class="themeNewList" :class="model">
                 <ul>
                     <li v-for="story in this.$store.state.currentTheme.stories" :key="story.id" class="new border-1px" @click="goNew(story.id)">
@@ -28,12 +28,13 @@
 <script>
 import VHeader from '@/components/v-header/v-header'
 import Sidebar from '@/components/sidebar/sidebar'
-import axios from 'axios'
+import { getThemeInfo } from '@/api/service'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
     data(){
         return {
-            id: ''
+
         }
     },
     watch: {
@@ -47,33 +48,22 @@ export default {
     methods: {
         //获取当前主题页面数据
         fetchData() {
-            if (this.$store.state.currentThemeId != -1) {
-              axios.get('api/theme/' + this.$store.state.currentThemeId).then((response) => {
-                let theme = response.data
-                let stories = theme.stories;
-                let ids = stories.map(story => story.id);
-                this.$store.dispatch('addTheme', theme)
-                this.$store.dispatch('addAllNews', stories);
-                this.$store.dispatch('addThemeIds', ids);
-              }).catch((error) => {
-                console.log(error)
-              });
+            if (this.currentThemeId != -1) {
+                getThemeInfo(this.currentThemeId).then((res) => {
+                    let theme = res.data;
+                    let stories = theme.stories;
+                    let ids = stories.map(story => story.id);
+                    this.$store.dispatch('addTheme', theme);
+                    this.$store.dispatch('addAllNews', stories);
+                    this.$store.dispatch('addThemeIds', ids);
+                }).catch((error) => {
+                    console.log(error);
+                });
             }
-            this.id = this.$store.state.currentThemeId;
         },
         //显示侧边栏，在其显示时访问他的获取数据方法，从而使better-scroll能够计算出中间主题列表高度
         show() {
             this.$refs.sidebar.open()
-        },
-        //对图片url进行转换
-        attachImageUrl(srcUrl) {
-            if (srcUrl !== undefined) {
-                return srcUrl.replace(/http\w{0,1}:\/\/p/g, 'https://images.weserv.nl/?url=p')
-            }
-        },
-        //跳转主编列表路由
-        showEditors(id) {
-            this.$router.push({name: 'editorsList', params: {id: id}})
         },
         //前往主题新闻详情页
         goNew(id) {
@@ -85,20 +75,15 @@ export default {
                 type: 3
             });
             this.$store.dispatch('addThemeNextId', id);
-        }
+        },
+        ...mapActions(['attachImageUrl'])
     },
     computed: {
-        //获取当前主题id
-        currentThemeId() {
-            return this.$store.state.currentThemeId;
-        },
-        themeTitle(){
-            return this.$route.params.name;
-        },
-        //返回当前模式
-        model() {
-            return this.$store.state.isNight ? 'night' : 'morning';
-        }
+        ...mapGetters([
+            'model',
+            'currentThemeId',
+            'themeTitle'
+        ])
     },
     components: {
         VHeader,

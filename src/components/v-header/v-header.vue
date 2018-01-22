@@ -22,11 +22,8 @@ export default {
         }
     },
     computed: {
-        model(){
-            return this.isNight ? 'night' : 'morning';
-        },
         ...mapGetters([
-            'isNight'
+            'model'
         ])
     }
 }
