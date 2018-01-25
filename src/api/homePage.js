@@ -15,3 +15,11 @@ export function getNews(){
 		});
 	});
 }
+
+export function getBeforeNews(str){
+	return new Promise((resolve, reject) => {
+		axios.get('api/news/before/' + str).then((res) => {
+			resolve(res);
+		});
+	});
+}

@@ -21,6 +21,7 @@
 import SonHeader from '@/components/son-header/son-header'
 import { getCollectedNews } from '@/api/service'
 import Scroll from '@/base/scroll/scroll'
+import { mapGetters } from 'vuex'
 
 export default {
 	data(){
@@ -64,13 +65,14 @@ export default {
 			this.$store.commit('setId', id);
 			this.$router.push({name: 'newDetail', params: {id: id}});
 			this.$store.dispatch('judgeCollectState');
-			this.$store.dispatch('changeGoType', 2);
+			this.$store.dispatch('changeGoType', {
+				id: id,
+				type: 2
+			});
 		}
 	},
 	computed: {
-		model(){
-			return this.$store.getters.isNight ? 'night' : 'morning';
-		}
+		...mapGetters(['model'])
 	},
 	components: {
 		SonHeader,

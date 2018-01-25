@@ -24,8 +24,8 @@ export default {
 		commit(types.ADD_IDS, newIds);
 	},
 	addDate({commit}, date) {
-		commit(types.ADD_DATE, date)
-		commit(types.ADD_HOMEPAGE_DATE, date)
+		commit(types.ADD_DATE, date);
+		commit(types.ADD_HOMEPAGE_DATE, date);
 	},
 	addDateStr({commit}, dateStr) {
   	    commit(types.ADD_DATE_STR, dateStr)
@@ -49,9 +49,5 @@ export default {
 	//改变主编id
 	addEditorId:({commit},payload) => {
 		commit(types.ADD_EDITOR_ID,payload)
-	},
-	//对图片url进行转换
-	attachImageUrl({commit}, srcUrl) {
-		commit(types.ATTACH_URL, srcUrl);
 	}
 }

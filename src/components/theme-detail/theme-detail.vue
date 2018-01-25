@@ -76,7 +76,12 @@ export default {
             });
             this.$store.dispatch('addThemeNextId', id);
         },
-        ...mapActions(['attachImageUrl'])
+        //转换图片url
+        attachImageUrl(srcUrl) {
+            if (srcUrl !== undefined) {
+                return srcUrl.replace(/http\w{0,1}:\/\/p/g, 'https://images.weserv.nl/?url=p');
+            }
+        }
     },
     computed: {
         ...mapGetters([

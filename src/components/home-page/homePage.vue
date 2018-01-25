@@ -35,9 +35,8 @@
 import Scroll from '@/base/scroll/scroll'
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'
-import { getSlider, getNews } from '@/api/homePage'
+import { getSlider, getNews, getBeforeNews } from '@/api/homePage'
 import { mapGetters, mapMutations, mapActions } from 'vuex'
-import axios from 'axios'
 
 export default {
 	data(){
@@ -46,7 +45,7 @@ export default {
 			swiperOption: {
 				// loop: true
 			},
-			date: new Date(),
+			date: null,
 			dateStr: ''
 		}
 	},
@@ -82,7 +81,7 @@ export default {
 		//获取第一次加载当前日期
 		initDate(){
 			this.date = new Date();
-	        this.addDate(new Date(this.date.getTime()));
+	        this.addDate(this.date);
 	        this.changeDateStr();
 		},
 		changeDateStr(){
@@ -107,7 +106,13 @@ export default {
 			});
 			return data;
 		},
-		//将日期推前一天
+		//转换图片url
+		attachImageUrl(srcUrl) {
+		    if (srcUrl !== undefined) {
+		    	return srcUrl.replace(/http\w{0,1}:\/\/p/g, 'https://images.weserv.nl/?url=p');
+		    }
+		},
+		//将日期推前一天,用来获取前一天的数据
 		decreaseDateStr() {
 			let homeDate = this.homepageDate;
 			homeDate.setDate(homeDate.getDate() - 1)
@@ -115,7 +120,7 @@ export default {
 			this.changeDateStr();
 		},
 		fetchMoreData(){
-			axios.get('api/news/before/' + this.homepageDateStr).then((res) => {
+			getBeforeNews(this.homepageDateStr).then((res) => {
 	            let stories = res.data.stories;
 	            let ids = stories.map(story => story.id)
 
@@ -123,6 +128,10 @@ export default {
 	              	stories: stories,
 	              	ids: ids
 	            });
+
+	            this.$nextTick(() => {
+					this.$refs.homeScroll.refresh();
+				});
 	        }).catch((error) => {
 	          	console.log(error)
 	        });
@@ -143,8 +152,7 @@ export default {
 			'addNews',
 			'changeGoType',
 			'addDate',
-			'addDateStr',
-			'attachImageUrl'
+			'addDateStr'
 		])
 	},
 	computed: {

@@ -11,12 +11,6 @@ export default {
 	setId(state, id){
 		state.id = id;
 	},
-	//对图片url进行转换
-	[types.ATTACH_URL](state, srcUrl) {
-        if (srcUrl !== undefined) {
-            return srcUrl.replace(/http\w{0,1}:\/\/p/g, 'https://images.weserv.nl/?url=p')
-        }
-    },
 	//
 	[types.CHANGE_CURRENT_THEME_ID](state, id){
 		state.currentThemeId = id;
