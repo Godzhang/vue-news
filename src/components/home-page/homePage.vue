@@ -93,7 +93,7 @@ export default {
 	        date = date < 10 ? '0' + date : date + '';
 
 	        this.dateStr = year + month + date;
-	        this.addDateStr(this.dateStr)
+	        this.addDateStr(this.dateStr);
 		},
 		_getSlider(){
 			getSlider().then((res) => {
