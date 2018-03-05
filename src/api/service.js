@@ -32,3 +32,11 @@ export function getThemeInfo(id){
 		});
 	});
 }
+//获取专题更多信息
+export function getMoreThemeInfo(id, timestamp){
+	return new Promise((resolve, reject) => {
+		axios.get('api/section/' + id + '/before/' + timestamp).then((res) => {
+			resolve(res);
+		});
+	});
+}
